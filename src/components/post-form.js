@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
-import {creatPost} from "./redux/action";
+import {creatPost, showAlert} from "./redux/action";
+import {Alert} from "./alert";
 
 class PostForm extends React.Component {
 
@@ -15,7 +16,7 @@ class PostForm extends React.Component {
         event.preventDefault()
         const {title} = this.state
         if (!title.trim()) {
-            return
+            return this.props.showAlert('Название поста не может быть пустым')
         }
         const newPost = {
             title, id: Date.now().toString()
@@ -38,6 +39,7 @@ class PostForm extends React.Component {
         return (
 
             <form onSubmit={this.submitHandler}>
+                {this.props.alert && <Alert text={this.props.alert}/>}
                 <div className="form-group">
                     <label htmlFor="title">Заголовок</label>
                     <input type="text"
@@ -55,7 +57,10 @@ class PostForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    creatPost
+    creatPost, showAlert
 }
+const mapStateToProps = state => ({
+    alert: state.app.alert
+})
 
-export default connect(null, mapDispatchToProps)(PostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
