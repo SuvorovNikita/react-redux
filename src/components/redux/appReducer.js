@@ -1,7 +1,8 @@
 import {HIDE_LOADER, SHOW_LOADER} from "./types";
 
 const initialState = {
-    loading: false
+    loading: false,
+    alert: false
 }
 
 export const appReducer = (state = initialState, action) => {
